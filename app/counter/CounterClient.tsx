@@ -55,7 +55,7 @@ export default function CounterClient() {
         setError('1AM wallet not detected. Please install the 1AM browser extension.');
         return;
       }
-      const api = await wallet.connect('preprod');
+      const api = await wallet.connect('preview');
       const s = await createConnectedSession(api, '/zk/counter/');
       setSession(s);
     } catch (e) {
