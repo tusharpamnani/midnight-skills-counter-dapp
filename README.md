@@ -4,6 +4,26 @@ A full-stack counter dApp on [Midnight Network](https://midnight.network) powere
 
 Built with Next.js 16, TypeScript, Tailwind CSS, and the Compact smart contract language.
 
+## Product Idea
+
+This counter dApp demonstrates the core privacy primitives of Midnight Network. Users deploy a smart contract with a public counter that anyone can read, while optionally maintaining private state (e.g. a `privateCounter`) that never leaves the user's device. The goal is to build toward a shared scoreboard or contribution tracker where participation is provable via zero-knowledge proofs, but individual contribution amounts remain private — useful for privacy-preserving community coordination, anonymous donation matching, or transparent-but-private governance voting.
+
+## Deployed Contract
+
+Deployed to **Preview** network:
+
+```
+c3dac4aaebf188364a61f2743009b8067e06eea63abc3c647deb5d46bdd1b3a4
+```
+
+## Screenshots
+
+### Successful compile output
+![Compile output](public/screenshot-compilation.png)
+
+### DApp with deployed contract address
+![DApp with contract address](public/screenshot-dapp.png)
+
 ## Architecture
 
 ```
@@ -69,6 +89,16 @@ This compiles the contract, copies ZK assets to `public/`, then runs `next build
 4. **State query** — fetches the raw contract state from the indexer's GraphQL API, deserializes via `ContractState.deserialize`, and extracts `round` from `Counter.ledger()`
 
 Key SDK packages used: `@midnight-ntwrk/compact-runtime`, `@midnight-ntwrk/ledger-v8`, `@midnight-ntwrk/midnight-js-contracts`, `@midnight-ntwrk/compact-js`, `@midnight-ntwrk/midnight-js-fetch-zk-config-provider`, `@midnight-ntwrk/midnight-js-indexer-public-data-provider`.
+
+## Public State vs Private Witness
+
+Midnight separates on-chain data into two categories:
+
+**Public state** (`ledger` in Compact) is stored on-chain and visible to everyone via the indexer. In this contract, `round: Counter` is public — anyone can query the current counter value. This is the transparent, auditable layer.
+
+**Private witness state** is defined in `witnesses.ts` and lives only on the user's device. The `CounterPrivateState` type (containing `privateCounter`) is never committed to the chain. The ZK circuit can read and modify this local state while producing proofs that verify correctness without revealing the actual values.
+
+This separation is Midnight's core value proposition: you get the auditability of a public ledger for data you *choose* to disclose, while keeping sensitive data cryptographically private. The `increment` circuit currently only modifies the public `round`, but the witness type is scaffolded to add private-only logic in future iterations.
 
 ## Networks
 
