@@ -8,10 +8,14 @@
     "compact": "compact compile src/counter.compact src/managed/counter",
     "build": "npm run compact && npm run sync:assets",
     "build:contract": "npm run compact && npm run sync:assets",
-    "sync:assets": "cp -Rf ./src/managed/counter/keys ../public/zk/counter/ && cp -Rf ./src/managed/counter/zkir ../public/zk/counter/"
+    "sync:assets": "cp -Rf ./src/managed/counter/keys ../public/zk/counter/ && cp -Rf ./src/managed/counter/zkir ../public/zk/counter/",
+    "test": "vitest run"
   },
   "dependencies": {
     "@midnight-ntwrk/compact-runtime": "0.16.0",
     "@midnight-ntwrk/ledger-v8": "^8.0.3"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.10"
   }
 }

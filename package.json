@@ -8,6 +8,7 @@
     "compile": "npm --prefix contract run compact",
     "start": "next start",
     "lint": "eslint",
+    "test": "npm --prefix contract run test",
     "sync:assets": "cp -Rf ./contract/src/managed/counter/keys ./public/zk/counter/ 2>/dev/null; cp -Rf ./contract/src/managed/counter/zkir ./public/zk/counter/ 2>/dev/null; echo 'ZK assets synced'"
   },
   "dependencies": {
